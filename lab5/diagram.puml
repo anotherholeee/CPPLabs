@@ -1,0 +1,75 @@
+@startuml
+
+title Структура программы управления компьютерами
+
+class Computer {
+  # brand: string
+  # screensize: float
+  # ram: int
+  + {abstract} getType(): string
+  + display_table_row(int): void
+  + set_info(): void
+  + get_info(): void
+}
+
+class Static_computer {
+  # power_supply: int
+}
+
+class Portable_computer {
+  # battery_life: int
+}
+
+class Monoblock {
+}
+
+class Laptop {
+}
+
+class Tablet {
+}
+
+class Deque<T> {
+  - front: Node<T>*
+  - back: Node<T>*
+  - currentSize: size_t
+  + pushFront(const T&): void
+  + pushBack(const T&): void
+  + popFront(): void
+  + popBack(): void
+  + display(): void
+  + sort(): void
+}
+
+class Node<T> {
+  - data: T
+  - prev: Node<T>*
+  - next: Node<T>*
+}
+
+' Наследование
+Computer <|-- Static_computer
+Computer <|-- Portable_computer
+Static_computer <|-- Monoblock
+Portable_computer <|-- Laptop
+Portable_computer <|-- Tablet
+
+' Композиция
+Deque *-right-> "Node<T>" : contains
+
+' Использование
+Deque --> Computer : stores pointers to
+
+note right of Computer
+  Абстрактный базовый класс
+  с виртуальными методами
+  и перегруженными операторами
+end note
+
+note bottom of Deque
+  Шаблонный класс двунаправленной
+  очереди с базовыми операциями
+  и алгоритмами поиска/сортировки
+end note
+
+@enduml

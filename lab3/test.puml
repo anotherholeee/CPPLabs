@@ -1,0 +1,140 @@
+@startuml ComputerSystem
+
+!define ABSTRACT abstract
+!define VIRTUAL virtual
+
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor #0078D7
+    AbstractBackgroundColor #F0F0F0
+    AbstractBorderColor #666666
+}
+
+title Компьютерная система - UML диаграмма классов
+
+class Computer {
+  {ABSTRACT}
+  - brand[20] : char
+  - screensize : float
+  - ram : int
+  + {VIRTUAL} Computer()
+  + {VIRTUAL} Computer(brand: string, screensize: float, ram: int)
+  + {VIRTUAL} ~Computer()
+  + getBrand() : string
+  + getScreensize() : float
+  + getRam() : int
+  + setBrand(newBrand: string) : void
+  + setScreensize(newScreensize: float) : void
+  + setRam(newRam: int) : void
+  + operator=(other: Computer&) : Computer&
+  + {VIRTUAL} display_table_header() : void
+  + {VIRTUAL} display_table_footer() : void
+  + {VIRTUAL} get_info() : void
+  + {VIRTUAL} set_info() : void
+}
+
+class Static_computer {
+  - power_supply : int
+  + Static_computer()
+  + Static_computer(brand: string, screensize: float, ram: int, power_supply: int)
+  + ~Static_computer()
+  + getPowerSupply() : int
+  + setPowerSupply(newPowerSupply: int) : void
+  + operator=(other: Static_computer&) : Static_computer&
+  + display_table_header() : void
+  + display_table_footer() : void
+}
+
+class Monoblock {
+  + Monoblock()
+  + Monoblock(brand: string, screensize: float, ram: int, power_supply: int)
+  + display_table_header() : void
+}
+
+class Portable_computer {
+  - battery_life : int
+  + Portable_computer()
+  + Portable_computer(brand: string, screensize: float, ram: int, battery_life: int)
+  + getBatteryLife() : int
+  + setBatteryLife(newBatteryLife: int) : void
+  + operator=(other: Portable_computer&) : Portable_computer&
+  + display_table_header() : void
+  + display_table_footer() : void
+}
+
+class Tablet {
+  + Tablet()
+  + Tablet(brand: string, screensize: float, ram: int, battery_life: int)
+  + display_table_header() : void
+}
+
+class Laptop {
+  + Laptop()
+  + Laptop(brand: string, screensize: float, ram: int, battery_life: int)
+  + display_table_header() : void
+}
+
+' Наследование
+Computer <|-- Static_computer
+Static_computer <|-- Monoblock
+Computer <|-- Portable_computer
+Portable_computer <|-- Tablet
+Portable_computer <|-- Laptop
+
+' Дружественные функции
+note top of Computer
+  Дружественные функции:
+  operator>>(in: istream&, computer: Computer&)
+  operator<<(out: ostream&, computer: const Computer&)
+end note
+
+note top of Static_computer
+  Дружественные функции:
+  operator>>(in: istream&, computer: Static_computer&)
+  operator<<(out: ostream&, computer: const Static_computer&)
+end note
+
+note top of Monoblock
+  Дружественные функции:
+  operator>>(in: istream&, computer: Monoblock&)
+  operator<<(out: ostream&, computer: const Monoblock&)
+end note
+
+note top of Portable_computer
+  Дружественные функции:
+  operator>>(in: istream&, computer: Portable_computer&)
+  operator<<(out: ostream&, computer: const Portable_computer&)
+end note
+
+note top of Tablet
+  Дружественные функции:
+  operator>>(in: istream&, computer: Tablet&)
+  operator<<(out: ostream&, computer: const Tablet&)
+end note
+
+note top of Laptop
+  Дружественные функции:
+  operator>>(in: istream&, computer: Laptop&)
+  operator<<(out: ostream&, computer: const Laptop&)
+end note
+
+' Глобальные функции
+class GlobalFunctions {
+  + display_all_computers_table(computers: Computer*[], count: int) : void
+  + show_main_menu() : void
+  + handle_menu_choice(computers: Computer*[], actual_count: int&, choice: int) : void
+  + run_main_menu(computers: Computer*[], size: int) : void
+}
+
+' Константы
+class Constants {
+  + MAX_COMPUTERS : int = 8
+  + BRAND_LENGTH : int = 20
+}
+
+' Отношения использования
+GlobalFunctions ..> Computer : uses
+GlobalFunctions ..> Constants : uses
+
+@enduml

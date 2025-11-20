@@ -1,0 +1,123 @@
+@startuml
+
+!define PUBLIC +
+!define PROTECTED #
+!define PRIVATE -
+!define PACKAGE ~
+
+class Computer {
+  {static} BRAND_LENGTH : int = 20
+  {field} brand[BRAND_LENGTH] : char
+  {field} screensize : float
+  {field} ram : int
+
+  {method} Computer()
+  {method} Computer(brand: string, screensize: float, ram: int)
+  {method} {virtual} ~Computer()
+  {method} getBrand() : string
+  {method} getScreensize() : float
+  {method} getRam() : int
+  {method} setBrand(newBrand: string)
+  {method} setScreensize(newScreensize: float)
+  {method} setRam(newRam: int)
+  {method} operator=(other: Computer) : Computer&
+  {method} {virtual} display_table_header()
+  {method} {virtual} display_table_footer()
+  {method} {virtual} display_table_row(index: int)
+  {method} {virtual} get_info()
+  {method} {virtual} set_info()
+}
+
+class Static_computer {
+  {field} power_supply : int
+
+  {method} Static_computer()
+  {method} Static_computer(brand: string, screensize: float, ram: int, power_supply: int)
+  {method} ~Static_computer()
+  {method} getPowerSupply() : int
+  {method} setPowerSupply(newPowerSupply: int)
+  {method} operator=(other: Static_computer) : Static_computer&
+  {method} {override} display_table_header()
+  {method} {override} display_table_footer()
+  {method} {override} display_table_row(index: int)
+}
+
+class Monoblock {
+  {method} Monoblock()
+  {method} Monoblock(brand: string, screensize: float, ram: int, power_supply: int)
+  {method} {override} display_table_header()
+  {method} {override} display_table_row(index: int)
+}
+
+class Portable_computer {
+  {field} battery_life : int
+
+  {method} Portable_computer()
+  {method} Portable_computer(brand: string, screensize: float, ram: int, battery_life: int)
+  {method} getBatteryLife() : int
+  {method} setBatteryLife(newBatteryLife: int)
+  {method} operator=(other: Portable_computer) : Portable_computer&
+  {method} {override} display_table_header()
+  {method} {override} display_table_footer()
+  {method} {override} display_table_row(index: int)
+}
+
+class Tablet {
+  {method} Tablet()
+  {method} Tablet(brand: string, screensize: float, ram: int, battery_life: int)
+  {method} {override} display_table_header()
+  {method} {override} display_table_row(index: int)
+}
+
+class Laptop {
+  {method} Laptop()
+  {method} Laptop(brand: string, screensize: float, ram: int, battery_life: int)
+  {method} {override} display_table_header()
+  {method} {override} display_table_row(index: int)
+}
+
+' Наследование
+Computer <|-- Static_computer
+Static_computer <|-- Monoblock
+Computer <|-- Portable_computer
+Portable_computer <|-- Tablet
+Portable_computer <|-- Laptop
+
+' Дружественные функции (можно показать как заметки)
+note top of Computer
+Дружественные функции:
+operator>>(in: istream&, computer: Computer&)
+operator<<(out: ostream&, computer: Computer&)
+end note
+
+note top of Static_computer
+Дружественные функции:
+operator>>(in: istream&, computer: Static_computer&)
+operator<<(out: ostream&, computer: Static_computer&)
+end note
+
+note top of Monoblock
+Дружественные функции:
+operator>>(in: istream&, computer: Monoblock&)
+operator<<(out: ostream&, computer: Monoblock&)
+end note
+
+note top of Portable_computer
+Дружественные функции:
+operator>>(in: istream&, computer: Portable_computer&)
+operator<<(out: ostream&, computer: Portable_computer&)
+end note
+
+note top of Tablet
+Дружественные функции:
+operator>>(in: istream&, computer: Tablet&)
+operator<<(out: ostream&, computer: Tablet&)
+end note
+
+note top of Laptop
+Дружественные функции:
+operator>>(in: istream&, computer: Laptop&)
+operator<<(out: ostream&, computer: Laptop&)
+end note
+
+@enduml
