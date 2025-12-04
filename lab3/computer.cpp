@@ -57,7 +57,6 @@ std::istream& operator>>(std::istream& in, Computer& computer) {
     return in;
 }
 
-
 std::ostream& operator<<(std::ostream& out, const Computer& computer) {
     out << std::setw(20) << std::left << computer.brand << " | "
         << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.screensize << " | "
@@ -78,8 +77,6 @@ void Computer::display_table_footer() const {
     std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
 }
 
-// Убрали реализацию display_table_row - теперь это чисто виртуальный метод
-
 void Computer::get_info() {
     std::cout << *this;
 }
@@ -94,8 +91,6 @@ Static_computer::Static_computer() : Computer(), power_supply(0) {}
 
 Static_computer::Static_computer(const std::string& brand, float screensize, int ram, int power_supply)
     : Computer(brand, screensize, ram), power_supply(power_supply) {}
-
-Static_computer::~Static_computer() = default;
 
 int Static_computer::getPowerSupply() const { return power_supply; }
 void Static_computer::setPowerSupply(int newPowerSupply) { power_supply = newPowerSupply; }
@@ -137,38 +132,6 @@ void Static_computer::display_table_footer() const {
     std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
 }
 
-
-
-// ==================== Monoblock ====================
-
-Monoblock::Monoblock() : Static_computer() {}
-
-Monoblock::Monoblock(const std::string& brand, float screensize, int ram, int power_supply)
-    : Static_computer(brand, screensize, ram, power_supply) {}
-
-std::istream& operator>>(std::istream& in, Monoblock& computer) {
-    in >> static_cast<Static_computer&>(computer);
-    return in;
-}
-
-std::ostream& operator<<(std::ostream& out, const Monoblock& computer) {
-    out << std::setw(20) << std::left << computer.getBrand() << " | "
-        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
-        << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Моноблок"
-        << " | " << std::setw(14) << std::left << (std::to_string(computer.getPowerSupply()) + " Вт")
-        << " |" << std::endl;
-    return out;
-}
-
-void Monoblock::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Блок питания   |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-
-
 // ==================== Portable_computer ====================
 
 Portable_computer::Portable_computer() : Computer(), battery_life(0) {}
@@ -190,7 +153,7 @@ Portable_computer& Portable_computer::operator=(const Portable_computer& other) 
 // Перегрузка ввода/вывода для Portable_computer
 std::istream& operator>>(std::istream& in, Portable_computer& computer) {
     in >> static_cast<Computer&>(computer);
-    std::cout << "Введите время автономной работы: ";
+    std::cout << "Введите время автономной работы (в часах): ";
     in >> computer.battery_life;
     return in;
 }
@@ -214,68 +177,6 @@ void Portable_computer::display_table_header() const {
 void Portable_computer::display_table_footer() const {
     std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
 }
-
-
-
-// ==================== Tablet ====================
-
-Tablet::Tablet() : Portable_computer() {}
-
-Tablet::Tablet(const std::string& brand, float screensize, int ram, int battery_life)
-    : Portable_computer(brand, screensize, ram, battery_life) {}
-
-std::istream& operator>>(std::istream& in, Tablet& computer) {
-    in >> static_cast<Portable_computer&>(computer);
-    return in;
-}
-
-std::ostream& operator<<(std::ostream& out, const Tablet& computer) {
-    out << std::setw(20) << std::left << computer.getBrand() << " | "
-        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
-        << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Планшет"
-        << " | " << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч")
-        << " |" << std::endl;
-    return out;
-}
-
-void Tablet::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-
-
-// ==================== Laptop ====================
-
-Laptop::Laptop() : Portable_computer() {}
-
-Laptop::Laptop(const std::string& brand, float screensize, int ram, int battery_life)
-    : Portable_computer(brand, screensize, ram, battery_life) {}
-
-std::istream& operator>>(std::istream& in, Laptop& computer) {
-    in >> static_cast<Portable_computer&>(computer);
-    return in;
-}
-
-std::ostream& operator<<(std::ostream& out, const Laptop& computer) {
-    out << std::setw(20) << std::left << computer.getBrand() << " | "
-        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
-        << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Ноутбук"
-        << " | " << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч")
-        << " |" << std::endl;
-    return out;
-}
-
-void Laptop::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-
 
 // ==================== Вспомогательные функции ====================
 

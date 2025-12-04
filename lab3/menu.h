@@ -2,6 +2,11 @@
 #define MENU_H
 
 #include "computer.h"
+#include "monoblock.h"
+#include "laptop.h"
+#include "tablet.h"
+
+#define MAX_COMPUTERS 100
 
 // Функции меню
 void show_main_menu();

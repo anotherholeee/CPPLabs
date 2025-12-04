@@ -7,4 +7,10 @@ add_executable(lab3 main.cpp
         computer.cpp
         computer.h
         menu.cpp
-        menu.h)
+        menu.h
+        monoblock.cpp
+        monoblock.h
+        laptop.cpp
+        laptop.h
+        tablet.cpp
+        tablet.h)
