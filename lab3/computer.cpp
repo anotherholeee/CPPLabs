@@ -61,29 +61,29 @@ std::ostream& operator<<(std::ostream& out, const Computer& computer) {
     out << std::setw(20) << std::left << computer.brand << " | "
         << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.screensize << " | "
         << std::setw(6) << std::right << computer.ram << " | "
-        << std::setw(12) << std::left << "Базовый"
-        << " |" << std::endl;
+        << std::setw(12) << std::left << "Базовый" << " | "
+        << std::setw(14) << std::left << "N/A" << " | "
+        << std::setw(10) << std::left << "N/A" << " |" << std::endl;
     return out;
 }
 
-// Виртуальные методы для таблицы
-void Computer::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
-}
-
-void Computer::display_table_footer() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
-}
-
-// Реализации виртуальных методов get_info() и set_info()
+// Методы для таблицы
 void Computer::get_info() {
     std::cout << *this;
 }
 
 void Computer::set_info() {
     std::cin >> *this;
+}
+
+void Computer::print_header() const {
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Характеристика | Дополнительно |" << std::endl;
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+}
+
+void Computer::print_table() const {
+    std::cout << *this;  // Просто вызывает operator<<
 }
 
 // ==================== Static_computer ====================
@@ -112,25 +112,32 @@ std::istream& operator>>(std::istream& in, Static_computer& computer) {
     return in;
 }
 
-// Перегрузка вывода для Static_computer в табличном формате
 std::ostream& operator<<(std::ostream& out, const Static_computer& computer) {
     out << std::setw(20) << std::left << computer.getBrand() << " | "
         << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
         << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Стационарный"
-        << " | " << std::setw(14) << std::left << (std::to_string(computer.power_supply) + " Вт")
-        << " |" << std::endl;
+        << std::setw(12) << std::left << "Стационарный" << " | "
+        << std::setw(14) << std::left << (std::to_string(computer.power_supply) + " Вт") << " | "
+        << std::setw(10) << std::left << "N/A" << " |" << std::endl;
     return out;
 }
 
-void Static_computer::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Блок питания   |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
+void Static_computer::get_info() {
+    std::cout << *this;
 }
 
-void Static_computer::display_table_footer() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
+void Static_computer::set_info() {
+    std::cin >> *this;
+}
+
+void Static_computer::print_header() const {
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Блок питания   | Дополнительно |" << std::endl;
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+}
+
+void Static_computer::print_table() const {
+    std::cout << *this;  // Просто вызывает operator<<
 }
 
 // ==================== Portable_computer ====================
@@ -163,20 +170,28 @@ std::ostream& operator<<(std::ostream& out, const Portable_computer& computer) {
     out << std::setw(20) << std::left << computer.getBrand() << " | "
         << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
         << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Портативный"
-        << " | " << std::setw(14) << std::left << (std::to_string(computer.battery_life) + " ч")
-        << " |" << std::endl;
+        << std::setw(12) << std::left << "Портативный" << " | "
+        << std::setw(14) << std::left << (std::to_string(computer.battery_life) + " ч") << " | "
+        << std::setw(10) << std::left << "N/A" << " |" << std::endl;
     return out;
 }
 
-void Portable_computer::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
+void Portable_computer::get_info() {
+    std::cout << *this;
 }
 
-void Portable_computer::display_table_footer() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
+void Portable_computer::set_info() {
+    std::cin >> *this;
+}
+
+void Portable_computer::print_header() const {
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        | Дополнительно |" << std::endl;
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+}
+
+void Portable_computer::print_table() const {
+    std::cout << *this;  // Просто вызывает operator<<
 }
 
 // ==================== Вспомогательные функции ====================
@@ -189,16 +204,17 @@ void display_all_computers_table(Computer* computers[], int count) {
 
     std::cout << "\nТАБЛИЦА КОМПЬЮТЕРОВ" << std::endl;
 
-    // Выводим шапку таблицы
-    computers[0]->display_table_header();
+    // Выводим шапку таблицы (используем шапку первого элемента)
+    computers[0]->print_header();
 
     for (int i = 0; i < count; i++) {
         if (computers[i] != nullptr) {
             std::cout << "| " << std::setw(2) << std::right << (i + 1) << " | ";
-            computers[i]->get_info(); // Вызовет правильную версию get_info()
+            computers[i]->print_table();  // Вызовет print_table(), который вызовет operator<<
         }
     }
 
-    computers[0]->display_table_footer();
+    // Подвал таблицы
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
     std::cout << "Всего устройств: " << count << std::endl << std::endl;
 }

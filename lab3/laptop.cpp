@@ -37,15 +37,18 @@ std::ostream& operator<<(std::ostream& out, const Laptop& computer) {
     out << std::setw(20) << std::left << computer.getBrand() << " | "
         << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
         << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Ноутбук"
-        << " | " << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч")
-        << " | " << std::setw(10) << std::left << (computer.getHasNumericKeypad() ? "Есть" : "Нет")
-        << " |" << std::endl;
+        << std::setw(12) << std::left << "Ноутбук" << " | "
+        << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч") << " | "
+        << std::setw(10) << std::left << (computer.getHasNumericKeypad() ? "Есть" : "Нет") << " |" << std::endl;
     return out;
 }
 
-void Laptop::display_table_header() const {
+void Laptop::print_header() const {
     std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
     std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        | Цифр. клав.|" << std::endl;
     std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+}
+
+void Laptop::print_table() const {
+    std::cout << *this;  // Просто вызывает operator<<
 }

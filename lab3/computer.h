@@ -31,10 +31,10 @@ public:
     Computer& operator=(const Computer& other);
 
     // Виртуальные методы
-    virtual void display_table_header() const;
-    virtual void display_table_footer() const;
     virtual void get_info();
     virtual void set_info();
+    virtual void print_header() const;
+    virtual void print_table() const;
 
     // Дружественные функции ввода/вывода
     friend std::istream& operator>>(std::istream& in, Computer& computer);
@@ -58,8 +58,10 @@ public:
 
     Static_computer& operator=(const Static_computer& other);
 
-    virtual void display_table_header() const override;
-    virtual void display_table_footer() const override;
+    virtual void get_info() override;
+    virtual void set_info() override;
+    virtual void print_header() const override;
+    virtual void print_table() const override;
 
     friend std::istream& operator>>(std::istream& in, Static_computer& computer);
     friend std::ostream& operator<<(std::ostream& out, const Static_computer& computer);
@@ -79,8 +81,10 @@ public:
 
     Portable_computer& operator=(const Portable_computer& other);
 
-    virtual void display_table_header() const override;
-    virtual void display_table_footer() const override;
+    virtual void get_info() override;
+    virtual void set_info() override;
+    virtual void print_header() const override;
+    virtual void print_table() const override;
 
     friend std::istream& operator>>(std::istream& in, Portable_computer& computer);
     friend std::ostream& operator<<(std::ostream& out, const Portable_computer& computer);

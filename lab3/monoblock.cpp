@@ -37,15 +37,18 @@ std::ostream& operator<<(std::ostream& out, const Monoblock& computer) {
     out << std::setw(20) << std::left << computer.getBrand() << " | "
         << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
         << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Моноблок"
-        << " | " << std::setw(14) << std::left << (std::to_string(computer.getPowerSupply()) + " Вт")
-        << " | " << std::setw(10) << std::left << (computer.getHasTouchscreen() ? "Есть" : "Нет")
-        << " |" << std::endl;
+        << std::setw(12) << std::left << "Моноблок" << " | "
+        << std::setw(14) << std::left << (std::to_string(computer.getPowerSupply()) + " Вт") << " | "
+        << std::setw(10) << std::left << (computer.getHasTouchscreen() ? "Есть" : "Нет") << " |" << std::endl;
     return out;
 }
 
-void Monoblock::display_table_header() const {
+void Monoblock::print_header() const {
     std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
     std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Блок питания   | Сенсорный  |" << std::endl;
     std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+}
+
+void Monoblock::print_table() const {
+    std::cout << *this;  // Просто вызывает operator<<
 }

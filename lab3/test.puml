@@ -1,140 +1,130 @@
-@startuml ComputerSystem
+@startuml ComputerClassDiagramCompact
 
-!define ABSTRACT abstract
-!define VIRTUAL virtual
+title Классовая диаграмма: Иерархия компьютеров\nИнформационная система учета компьютерной техники
 
 skinparam class {
     BackgroundColor White
     BorderColor Black
-    ArrowColor #0078D7
-    AbstractBackgroundColor #F0F0F0
-    AbstractBorderColor #666666
+    FontSize 13
+    AttributeFontSize 12
+    MethodFontSize 12
 }
 
-title Компьютерная система - UML диаграмма классов
+skinparam package {
+    BackgroundColor #F0F0F0
+    BorderColor #666666
+}
 
+' Базовый класс
 class Computer {
-  {ABSTRACT}
-  - brand[20] : char
-  - screensize : float
-  - ram : int
-  + {VIRTUAL} Computer()
-  + {VIRTUAL} Computer(brand: string, screensize: float, ram: int)
-  + {VIRTUAL} ~Computer()
-  + getBrand() : string
-  + getScreensize() : float
-  + getRam() : int
-  + setBrand(newBrand: string) : void
-  + setScreensize(newScreensize: float) : void
-  + setRam(newRam: int) : void
-  + operator=(other: Computer&) : Computer&
-  + {VIRTUAL} display_table_header() : void
-  + {VIRTUAL} display_table_footer() : void
-  + {VIRTUAL} get_info() : void
-  + {VIRTUAL} set_info() : void
+  {field} - brand[BRAND_LENGTH] : char
+  {field} - screensize : float
+  {field} - ram : int
+
+  {method} + Computer()
+  {method} + Computer(brand: string, screensize: float, ram: int)
+  {method} + getBrand() : string
+  {method} + getScreensize() : float
+  {method} + getRam() : int
+  {method} + setBrand(newBrand: string) : void
+  {method} + setScreensize(newScreensize: float) : void
+  {method} + setRam(newRam: int) : void
+
+  {method} + get_info() : void <<virtual>>
+  {method} + set_info() : void <<virtual>>
+  {method} + print_header() : void <<virtual>>
+  {method} + print_table() : void <<virtual>>
 }
 
+' Промежуточные классы
 class Static_computer {
-  - power_supply : int
-  + Static_computer()
-  + Static_computer(brand: string, screensize: float, ram: int, power_supply: int)
-  + ~Static_computer()
-  + getPowerSupply() : int
-  + setPowerSupply(newPowerSupply: int) : void
-  + operator=(other: Static_computer&) : Static_computer&
-  + display_table_header() : void
-  + display_table_footer() : void
-}
+  {field} - power_supply : int
 
-class Monoblock {
-  + Monoblock()
-  + Monoblock(brand: string, screensize: float, ram: int, power_supply: int)
-  + display_table_header() : void
+  {method} + getPowerSupply() : int
+  {method} + setPowerSupply(newPowerSupply: int) : void
+
+  {method} + get_info() : void <<override>>
+  {method} + set_info() : void <<override>>
+  {method} + print_header() : void <<override>>
+  {method} + print_table() : void <<override>>
 }
 
 class Portable_computer {
-  - battery_life : int
-  + Portable_computer()
-  + Portable_computer(brand: string, screensize: float, ram: int, battery_life: int)
-  + getBatteryLife() : int
-  + setBatteryLife(newBatteryLife: int) : void
-  + operator=(other: Portable_computer&) : Portable_computer&
-  + display_table_header() : void
-  + display_table_footer() : void
+  {field} - battery_life : int
+
+  {method} + getBatteryLife() : int
+  {method} + setBatteryLife(newBatteryLife: int) : void
+
+  {method} + get_info() : void <<override>>
+  {method} + set_info() : void <<override>>
+  {method} + print_header() : void <<override>>
+  {method} + print_table() : void <<override>>
 }
 
-class Tablet {
-  + Tablet()
-  + Tablet(brand: string, screensize: float, ram: int, battery_life: int)
-  + display_table_header() : void
+' Конкретные классы
+class Monoblock {
+  {field} - has_touchscreen : bool
+
+  {method} + getHasTouchscreen() : bool
+  {method} + setHasTouchscreen(hasTouch: bool) : void
+
+  {method} + get_info() : void <<override>>
+  {method} + set_info() : void <<override>>
+  {method} + print_header() : void <<override>>
+  {method} + print_table() : void <<override>>
 }
 
 class Laptop {
-  + Laptop()
-  + Laptop(brand: string, screensize: float, ram: int, battery_life: int)
-  + display_table_header() : void
+  {field} - has_numeric_keypad : bool
+
+  {method} + getHasNumericKeypad() : bool
+  {method} + setHasNumericKeypad(hasKeypad: bool) : void
+
+  {method} + get_info() : void <<override>>
+  {method} + set_info() : void <<override>>
+  {method} + print_header() : void <<override>>
+  {method} + print_table() : void <<override>>
 }
 
-' Наследование
+class Tablet {
+  {field} - has_stylus : bool
+
+  {method} + getHasStylus() : bool
+  {method} + setHasStylus(stylus: bool) : void
+
+  {method} + get_info() : void <<override>>
+  {method} + set_info() : void <<override>>
+  {method} + print_header() : void <<override>>
+  {method} + print_table() : void <<override>>
+}
+
+' Отношения наследования
 Computer <|-- Static_computer
-Static_computer <|-- Monoblock
 Computer <|-- Portable_computer
-Portable_computer <|-- Tablet
+Static_computer <|-- Monoblock
 Portable_computer <|-- Laptop
+Portable_computer <|-- Tablet
 
-' Дружественные функции
-note top of Computer
-  Дружественные функции:
-  operator>>(in: istream&, computer: Computer&)
-  operator<<(out: ostream&, computer: const Computer&)
-end note
+' Перегрузка операторов (отдельная заметка)
+note "Операторы ввода/вывода:\noperator>> и operator<<\nреализованы как friend функции\nдля каждого класса" as OperatorsNote
+OperatorsNote .. Computer
+OperatorsNote .. Static_computer
+OperatorsNote .. Portable_computer
+OperatorsNote .. Monoblock
+OperatorsNote .. Laptop
+OperatorsNote .. Tablet
 
-note top of Static_computer
-  Дружественные функции:
-  operator>>(in: istream&, computer: Static_computer&)
-  operator<<(out: ostream&, computer: const Static_computer&)
-end note
+' Вспомогательные функции
+note "Глобальные функции:\n- display_all_computers_table()\n\nГлобальные константы:\n- BRAND_LENGTH = 20\n- MAX_COMPUTERS = 100" as GlobalsNote
 
-note top of Monoblock
-  Дружественные функции:
-  operator>>(in: istream&, computer: Monoblock&)
-  operator<<(out: ostream&, computer: const Monoblock&)
-end note
-
-note top of Portable_computer
-  Дружественные функции:
-  operator>>(in: istream&, computer: Portable_computer&)
-  operator<<(out: ostream&, computer: const Portable_computer&)
-end note
-
-note top of Tablet
-  Дружественные функции:
-  operator>>(in: istream&, computer: Tablet&)
-  operator<<(out: ostream&, computer: const Tablet&)
-end note
-
-note top of Laptop
-  Дружественные функции:
-  operator>>(in: istream&, computer: Laptop&)
-  operator<<(out: ostream&, computer: const Laptop&)
-end note
-
-' Глобальные функции
-class GlobalFunctions {
-  + display_all_computers_table(computers: Computer*[], count: int) : void
-  + show_main_menu() : void
-  + handle_menu_choice(computers: Computer*[], actual_count: int&, choice: int) : void
-  + run_main_menu(computers: Computer*[], size: int) : void
+' Стили для визуализации
+skinparam classBackgroundColor {
+  Computer #E8F4FD
+  Static_computer #F0F8FF
+  Portable_computer #F0FFF0
+  Monoblock #FFF0F5
+  Laptop #FFF8DC
+  Tablet #F5F5DC
 }
-
-' Константы
-class Constants {
-  + MAX_COMPUTERS : int = 8
-  + BRAND_LENGTH : int = 20
-}
-
-' Отношения использования
-GlobalFunctions ..> Computer : uses
-GlobalFunctions ..> Constants : uses
 
 @enduml

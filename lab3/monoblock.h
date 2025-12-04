@@ -14,11 +14,11 @@ public:
 
     virtual void get_info() override;
     virtual void set_info() override;
+    virtual void print_header() const override;
+    virtual void print_table() const override;
 
     bool getHasTouchscreen() const;
     void setHasTouchscreen(bool hasTouch);
-    
-    virtual void display_table_header() const override;
 
     friend std::istream& operator>>(std::istream& in, Monoblock& computer);
     friend std::ostream& operator<<(std::ostream& out, const Monoblock& computer);
