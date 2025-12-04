@@ -12,11 +12,11 @@ Monoblock::Monoblock(const std::string& brand, float screensize, int ram, int po
       has_touchscreen(has_touchscreen) {}
 
 void Monoblock::set_info() {
-    std::cin >> *this;  // Вызывает operator>> для Monoblock
+    std::cin >> *this;
 }
 
 void Monoblock::get_info() {
-    std::cout << *this;  // Вызывает operator<< для Monoblock
+    std::cout << *this;
 }
 
 bool Monoblock::getHasTouchscreen() const { return has_touchscreen; }
@@ -34,21 +34,24 @@ std::istream& operator>>(std::istream& in, Monoblock& computer) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Monoblock& computer) {
-    out << std::setw(20) << std::left << computer.getBrand() << " | "
-        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
-        << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Моноблок" << " | "
+
+    out << static_cast<const Computer&>(computer);
+
+    std::string extra_param = "Нет";
+    if (computer.getHasTouchscreen()) {
+        extra_param = "Есть (сенсор)";
+    }
+
+    out << std::setw(12) << std::left << "Моноблок" << " | "
         << std::setw(14) << std::left << (std::to_string(computer.getPowerSupply()) + " Вт") << " | "
-        << std::setw(10) << std::left << (computer.getHasTouchscreen() ? "Есть" : "Нет") << " |" << std::endl;
+        << std::setw(17) << std::left << extra_param << " |" << std::endl;
     return out;
 }
 
 void Monoblock::print_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Блок питания   | Сенсорный  |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+    Static_computer::print_header();
 }
 
 void Monoblock::print_table() const {
-    std::cout << *this;  // Просто вызывает operator<<
+    std::cout << *this;
 }

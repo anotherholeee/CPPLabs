@@ -12,11 +12,11 @@ Laptop::Laptop(const std::string& brand, float screensize, int ram, int battery_
       has_numeric_keypad(has_numeric_keypad) {}
 
 void Laptop::set_info() {
-    std::cin >> *this;  // Вызывает operator>> для Laptop
+    std::cin >> *this;
 }
 
 void Laptop::get_info() {
-    std::cout << *this;  // Вызывает operator<< для Laptop
+    std::cout << *this;
 }
 
 bool Laptop::getHasNumericKeypad() const { return has_numeric_keypad; }
@@ -34,21 +34,22 @@ std::istream& operator>>(std::istream& in, Laptop& computer) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Laptop& computer) {
-    out << std::setw(20) << std::left << computer.getBrand() << " | "
-        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
-        << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Ноутбук" << " | "
-        << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч") << " | "
-        << std::setw(10) << std::left << (computer.getHasNumericKeypad() ? "Есть" : "Нет") << " |" << std::endl;
+
+    out << static_cast<const Portable_computer&>(computer);
+
+    std::string extra_param = "Нет";
+    if (computer.getHasNumericKeypad()) {
+        extra_param = "Есть (numpad)";
+    }
+
+    out << std::setw(17) << std::left << extra_param << " |" << std::endl;
     return out;
 }
 
 void Laptop::print_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        | Цифр. клав.|" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+    Portable_computer::print_header();
 }
 
 void Laptop::print_table() const {
-    std::cout << *this;  // Просто вызывает operator<<
+    std::cout << *this;
 }

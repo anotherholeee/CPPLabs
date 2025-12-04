@@ -48,7 +48,7 @@ void handle_menu_choice(Computer* computers[], int& actual_count, int choice) {
             }
             break;
         case 4:
-            // Вывод шапки и перегрузка вывода через setw
+
             display_all_computers_table(computers, actual_count);
             break;
         default:
@@ -76,13 +76,13 @@ void run_main_menu(Computer* computers[], int size) {
         handle_menu_choice(computers, actual_count, choice);
     }
 
-    // Показываем финальную таблицу перед выходом
+
     if (actual_count > 0) {
         std::cout << "\nФинальный список устройств:" << std::endl;
         display_all_computers_table(computers, actual_count);
     }
 
-    // Освобождаем память
+
     for (int i = 0; i < actual_count; i++) {
         delete computers[i];
     }

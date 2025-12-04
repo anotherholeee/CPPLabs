@@ -12,11 +12,11 @@ Tablet::Tablet(const std::string& brand, float screensize, int ram, int battery_
       has_stylus(has_stylus) {}
 
 void Tablet::set_info() {
-    std::cin >> *this;  // Вызывает operator>> для Tablet
+    std::cin >> *this;
 }
 
 void Tablet::get_info() {
-    std::cout << *this;  // Вызывает operator<< для Tablet
+    std::cout << *this;
 }
 
 bool Tablet::getHasStylus() const { return has_stylus; }
@@ -34,21 +34,22 @@ std::istream& operator>>(std::istream& in, Tablet& computer) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Tablet& computer) {
-    out << std::setw(20) << std::left << computer.getBrand() << " | "
-        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.getScreensize() << " | "
-        << std::setw(6) << std::right << computer.getRam() << " | "
-        << std::setw(12) << std::left << "Планшет" << " | "
-        << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч") << " | "
-        << std::setw(10) << std::left << (computer.getHasStylus() ? "Есть" : "Нет") << " |" << std::endl;
+
+    out << static_cast<const Portable_computer&>(computer);
+
+    std::string extra_param = "Нет";
+    if (computer.getHasStylus()) {
+        extra_param = "Есть (стилус)";
+    }
+
+    out << std::setw(17) << std::left << extra_param << " |" << std::endl;
     return out;
 }
 
 void Tablet::print_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        | Стилус     |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+------------+" << std::endl;
+    Portable_computer::print_header();
 }
 
 void Tablet::print_table() const {
-    std::cout << *this;  // Просто вызывает operator<<
+    std::cout << *this;
 }
