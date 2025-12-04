@@ -77,6 +77,7 @@ void Computer::display_table_footer() const {
     std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
 }
 
+// Реализации виртуальных методов get_info() и set_info()
 void Computer::get_info() {
     std::cout << *this;
 }
@@ -193,9 +194,8 @@ void display_all_computers_table(Computer* computers[], int count) {
 
     for (int i = 0; i < count; i++) {
         if (computers[i] != nullptr) {
-            // Используем перегруженный operator<< для вывода в табличном формате
             std::cout << "| " << std::setw(2) << std::right << (i + 1) << " | ";
-            std::cout << *computers[i]; // Это вызовет перегруженный operator<<
+            computers[i]->get_info(); // Вызовет правильную версию get_info()
         }
     }
 

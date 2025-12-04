@@ -11,6 +11,14 @@ Monoblock::Monoblock(const std::string& brand, float screensize, int ram, int po
     : Static_computer(brand, screensize, ram, power_supply),
       has_touchscreen(has_touchscreen) {}
 
+void Monoblock::set_info() {
+    std::cin >> *this;  // Вызывает operator>> для Monoblock
+}
+
+void Monoblock::get_info() {
+    std::cout << *this;  // Вызывает operator<< для Monoblock
+}
+
 bool Monoblock::getHasTouchscreen() const { return has_touchscreen; }
 void Monoblock::setHasTouchscreen(bool hasTouch) { has_touchscreen = hasTouch; }
 
@@ -31,7 +39,7 @@ std::ostream& operator<<(std::ostream& out, const Monoblock& computer) {
         << std::setw(6) << std::right << computer.getRam() << " | "
         << std::setw(12) << std::left << "Моноблок"
         << " | " << std::setw(14) << std::left << (std::to_string(computer.getPowerSupply()) + " Вт")
-        << " | " << std::setw(10) << std::left << (computer.has_touchscreen ? "Есть" : "Нет")
+        << " | " << std::setw(10) << std::left << (computer.getHasTouchscreen() ? "Есть" : "Нет")
         << " |" << std::endl;
     return out;
 }

@@ -11,6 +11,14 @@ Tablet::Tablet(const std::string& brand, float screensize, int ram, int battery_
     : Portable_computer(brand, screensize, ram, battery_life),
       has_stylus(has_stylus) {}
 
+void Tablet::set_info() {
+    std::cin >> *this;  // Вызывает operator>> для Tablet
+}
+
+void Tablet::get_info() {
+    std::cout << *this;  // Вызывает operator<< для Tablet
+}
+
 bool Tablet::getHasStylus() const { return has_stylus; }
 void Tablet::setHasStylus(bool stylus) { has_stylus = stylus; }
 
@@ -31,7 +39,7 @@ std::ostream& operator<<(std::ostream& out, const Tablet& computer) {
         << std::setw(6) << std::right << computer.getRam() << " | "
         << std::setw(12) << std::left << "Планшет"
         << " | " << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч")
-        << " | " << std::setw(10) << std::left << (computer.has_stylus ? "Есть" : "Нет")
+        << " | " << std::setw(10) << std::left << (computer.getHasStylus() ? "Есть" : "Нет")
         << " |" << std::endl;
     return out;
 }

@@ -11,6 +11,14 @@ Laptop::Laptop(const std::string& brand, float screensize, int ram, int battery_
     : Portable_computer(brand, screensize, ram, battery_life),
       has_numeric_keypad(has_numeric_keypad) {}
 
+void Laptop::set_info() {
+    std::cin >> *this;  // Вызывает operator>> для Laptop
+}
+
+void Laptop::get_info() {
+    std::cout << *this;  // Вызывает operator<< для Laptop
+}
+
 bool Laptop::getHasNumericKeypad() const { return has_numeric_keypad; }
 void Laptop::setHasNumericKeypad(bool hasKeypad) { has_numeric_keypad = hasKeypad; }
 
@@ -31,7 +39,7 @@ std::ostream& operator<<(std::ostream& out, const Laptop& computer) {
         << std::setw(6) << std::right << computer.getRam() << " | "
         << std::setw(12) << std::left << "Ноутбук"
         << " | " << std::setw(14) << std::left << (std::to_string(computer.getBatteryLife()) + " ч")
-        << " | " << std::setw(10) << std::left << (computer.has_numeric_keypad ? "Есть" : "Нет")
+        << " | " << std::setw(10) << std::left << (computer.getHasNumericKeypad() ? "Есть" : "Нет")
         << " |" << std::endl;
     return out;
 }
