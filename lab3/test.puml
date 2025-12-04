@@ -1,21 +1,27 @@
 @startuml ComputerClassDiagramCompact
 
+!theme plain
+
+skinparam linetype ortho
+skinparam classRoundCorner 0
+skinparam classBorderThickness 2
+skinparam classFontName "Times New Roman"
+skinparam classFontSize 14
+skinparam classFontStyle normal
+skinparam classFontColor black
+skinparam classAttributeIconSize 0
+skinparam classBorderColor black
+skinparam classBackgroundColor white
+skinparam classArrowColor black
+skinparam classAbstractFontStyle italic
+skinparam classAbstractFontColor black
+skinparam classAbstractUnderline true
+skinparam inheritanceArrowColor black
+hide circle
+
 title Классовая диаграмма: Иерархия компьютеров\nИнформационная система учета компьютерной техники
 
-skinparam class {
-    BackgroundColor White
-    BorderColor Black
-    FontSize 13
-    AttributeFontSize 12
-    MethodFontSize 12
-}
-
-skinparam package {
-    BackgroundColor #F0F0F0
-    BorderColor #666666
-}
-
-' Базовый класс
+' Базовый класс - вверху посередине
 class Computer {
   {field} - brand[BRAND_LENGTH] : char
   {field} - screensize : float
@@ -98,12 +104,30 @@ class Tablet {
   {method} + print_table() : void <<override>>
 }
 
-' Отношения наследования
-Computer <|-- Static_computer
-Computer <|-- Portable_computer
-Static_computer <|-- Monoblock
-Portable_computer <|-- Laptop
-Portable_computer <|-- Tablet
+' Простая структура с невидимыми связями
+' Computer вверху
+' Static_computer и Portable_computer на одном уровне ниже
+' Monoblock под Static_computer, Laptop и Tablet под Portable_computer
+
+Computer -[hidden]down- dummy1
+dummy1 -[hidden]left- Static_computer
+dummy1 -[hidden]right- Portable_computer
+
+Static_computer -[hidden]down- Monoblock
+
+Portable_computer -[hidden]down- dummy2
+dummy2 -[hidden]left- Laptop
+dummy2 -[hidden]right- Tablet
+
+' Отношения наследования с прямыми углами
+Computer -down-|> Static_computer
+Computer -down-|> Portable_computer
+Static_computer -down-|> Monoblock
+Portable_computer -down-|> Laptop
+Portable_computer -down-|> Tablet
+
+hide dummy1
+hide dummy2
 
 ' Перегрузка операторов (отдельная заметка)
 note "Операторы ввода/вывода:\noperator>> и operator<<\nреализованы как friend функции\nдля каждого класса" as OperatorsNote
@@ -116,15 +140,5 @@ OperatorsNote .. Tablet
 
 ' Вспомогательные функции
 note "Глобальные функции:\n- display_all_computers_table()\n\nГлобальные константы:\n- BRAND_LENGTH = 20\n- MAX_COMPUTERS = 100" as GlobalsNote
-
-' Стили для визуализации
-skinparam classBackgroundColor {
-  Computer #E8F4FD
-  Static_computer #F0F8FF
-  Portable_computer #F0FFF0
-  Monoblock #FFF0F5
-  Laptop #FFF8DC
-  Tablet #F5F5DC
-}
 
 @enduml
