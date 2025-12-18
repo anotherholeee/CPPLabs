@@ -6,16 +6,14 @@ using namespace std;
 
 void show_main_menu() {
     std::cout << "\n=== МЕНЮ УПРАВЛЕНИЯ КОМПЬЮТЕРАМИ ===" << std::endl;
-    std::cout << "1. Добавить моноблок (в конец)" << std::endl;
-    std::cout << "2. Добавить ноутбук (в конец)" << std::endl;
-    std::cout << "3. Добавить планшет (в конец)" << std::endl;
-    std::cout << "4. Добавить устройство в начало" << std::endl;
-    std::cout << "5. Показать все устройства в таблице" << std::endl;
-    std::cout << "6. Показать структуру дека" << std::endl;
-    std::cout << "7. Удалить первое устройство" << std::endl;
-    std::cout << "8. Удалить последнее устройство" << std::endl;
-    std::cout << "9. Показать первое устройство" << std::endl;
-    std::cout << "10. Показать последнее устройство" << std::endl;
+    std::cout << "1. Добавить устройство в конец" << std::endl;
+    std::cout << "2. Добавить устройство в начало" << std::endl;
+    std::cout << "3. Показать все устройства в таблице" << std::endl;
+    std::cout << "4. Показать структуру дека" << std::endl;
+    std::cout << "5. Удалить первое устройство" << std::endl;
+    std::cout << "6. Удалить последнее устройство" << std::endl;
+    std::cout << "7. Показать первое устройство" << std::endl;
+    std::cout << "8. Показать последнее устройство" << std::endl;
     std::cout << "0. Выход" << std::endl;
     std::cout << "Ваш выбор: ";
 }
@@ -25,22 +23,33 @@ void handle_menu_choice(Deque<Computer*>& computers, int choice) {
         case 0:
             std::cout << "Выход из программы..." << std::endl;
             break;
-        case 1:
-            computers.pushBack(new Monoblock());
-            computers.getBack()->set_info();
-            std::cout << "Моноблок добавлен в конец дека!" << std::endl;
+        case 1: {
+            int type;
+            std::cout << "Выберите тип устройства для добавления в конец:" << std::endl;
+            std::cout << "1. Моноблок" << std::endl;
+            std::cout << "2. Ноутбук" << std::endl;
+            std::cout << "3. Планшет" << std::endl;
+            std::cout << "Ваш выбор: ";
+            std::cin >> type;
+            
+            Computer* newComputer = nullptr;
+            switch (type) {
+                case 1: newComputer = new Monoblock(); break;
+                case 2: newComputer = new Laptop(); break;
+                case 3: newComputer = new Tablet(); break;
+                default: 
+                    std::cout << "Неверный выбор!" << std::endl;
+                    return;
+            }
+            
+            if (newComputer) {
+                newComputer->set_info();
+                computers.pushBack(newComputer);
+                std::cout << "Устройство добавлено в конец дека!" << std::endl;
+            }
             break;
-        case 2:
-            computers.pushBack(new Laptop());
-            computers.getBack()->set_info();
-            std::cout << "Ноутбук добавлен в конец дека!" << std::endl;
-            break;
-        case 3:
-            computers.pushBack(new Tablet());
-            computers.getBack()->set_info();
-            std::cout << "Планшет добавлен в конец дека!" << std::endl;
-            break;
-        case 4: {
+        }
+        case 2: {
             int type;
             std::cout << "Выберите тип устройства для добавления в начало:" << std::endl;
             std::cout << "1. Моноблок" << std::endl;
@@ -66,15 +75,15 @@ void handle_menu_choice(Deque<Computer*>& computers, int choice) {
             }
             break;
         }
-        case 5:
+        case 3:
             display_all_computers_table(computers);
             break;
-        case 6:
+        case 4:
             std::cout << "\n=== СТРУКТУРА ДЕКА ===" << std::endl;
             std::cout << "Размер дека: " << computers.size() << std::endl;
             computers.display();
             break;
-        case 7:
+        case 5:
             if (!computers.empty()) {
                 delete computers.getFront();
                 computers.popFront();
@@ -83,7 +92,7 @@ void handle_menu_choice(Deque<Computer*>& computers, int choice) {
                 std::cout << "Дек пуст!" << std::endl;
             }
             break;
-        case 8:
+        case 6:
             if (!computers.empty()) {
                 delete computers.getBack();
                 computers.popBack();
@@ -92,7 +101,7 @@ void handle_menu_choice(Deque<Computer*>& computers, int choice) {
                 std::cout << "Дек пуст!" << std::endl;
             }
             break;
-        case 9:
+        case 7:
             if (!computers.empty()) {
                 std::cout << "\n=== ПЕРВОЕ УСТРОЙСТВО ===" << std::endl;
                 computers.getFront()->get_info();
@@ -100,7 +109,7 @@ void handle_menu_choice(Deque<Computer*>& computers, int choice) {
                 std::cout << "Дек пуст!" << std::endl;
             }
             break;
-        case 10:
+        case 8:
             if (!computers.empty()) {
                 std::cout << "\n=== ПОСЛЕДНЕЕ УСТРОЙСТВО ===" << std::endl;
                 computers.getBack()->get_info();

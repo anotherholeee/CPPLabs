@@ -8,5 +8,11 @@ add_executable(lab4 main.cpp
         menu.h
         computer.cpp
         computer.h
+        monoblock.cpp
+        monoblock.h
+        laptop.cpp
+        laptop.h
+        tablet.cpp
+        tablet.h
         deque.cpp
         deque.h)

@@ -1,5 +1,6 @@
 #include "computer.h"
 #include <cstring>
+#include <iomanip>
 
 using namespace std;
 
@@ -56,29 +57,20 @@ std::istream& operator>>(std::istream& in, Computer& computer) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Computer& computer) {
-    out << "Бренд: " << computer.brand << std::endl
-        << "Диагональ экрана: " << computer.screensize << std::endl
-        << "Объём оперативной памяти: " << computer.ram << std::endl;
+    out << std::setw(20) << std::left << computer.brand << " | "
+        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.screensize << " | "
+        << std::setw(6) << std::right << computer.ram << " | ";
     return out;
 }
 
-void Computer::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
+void Computer::print_header() const {
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+-------------------+" << std::endl;
+    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Характеристика | Доп. параметр     |" << std::endl;
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+-------------------+" << std::endl;
 }
 
-void Computer::display_table_footer() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+" << std::endl;
-}
-
-void Computer::display_table_row(int index) const {
-    std::cout << "| " << std::setw(2) << std::right << index
-         << " | " << std::setw(20) << std::left << brand
-         << " | " << std::setw(8) << std::right << std::fixed << std::setprecision(1) << screensize
-         << " | " << std::setw(6) << std::right << ram
-         << " | " << std::setw(12) << std::left << "Базовый"
-         << " |" << std::endl;
+void Computer::print_table() const {
+    std::cout << *this;
 }
 
 void Computer::get_info() {
@@ -87,6 +79,10 @@ void Computer::get_info() {
 
 void Computer::set_info() {
     std::cin >> *this;
+}
+
+std::string Computer::getTypeName() const {
+    return "Базовый";
 }
 
 // ==================== Static_computer ====================
@@ -119,61 +115,18 @@ std::istream& operator>>(std::istream& in, Static_computer& computer) {
 
 std::ostream& operator<<(std::ostream& out, const Static_computer& computer) {
     out << static_cast<const Computer&>(computer);
-    out << "Блок питания: " << computer.power_supply << std::endl;
+    out << std::setw(12) << std::left << "Стационарный" << " | "
+        << std::setw(14) << std::left << (std::to_string(computer.power_supply) + " Вт") << " | "
+        << std::setw(17) << std::left << "N/A" << " |";
     return out;
 }
 
-void Static_computer::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Блок питания   |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
+void Static_computer::print_header() const {
+    Computer::print_header();
 }
 
-void Static_computer::display_table_footer() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-void Static_computer::display_table_row(int index) const {
-    std::cout << "| " << std::setw(2) << std::right << index
-         << " | " << std::setw(20) << std::left << getBrand()
-         << " | " << std::setw(8) << std::right << std::fixed << std::setprecision(1) << getScreensize()
-         << " | " << std::setw(6) << std::right << getRam()
-         << " | " << std::setw(12) << std::left << "Стационарный"
-         << " | " << std::setw(14) << std::left << (std::to_string(power_supply) + " Вт")
-         << " |" << std::endl;
-}
-
-// ==================== Monoblock ====================
-
-Monoblock::Monoblock() : Static_computer() {}
-
-Monoblock::Monoblock(const std::string& brand, float screensize, int ram, int power_supply)
-    : Static_computer(brand, screensize, ram, power_supply) {}
-
-std::istream& operator>>(std::istream& in, Monoblock& computer) {
-    in >> static_cast<Static_computer&>(computer);
-    return in;
-}
-
-std::ostream& operator<<(std::ostream& out, const Monoblock& computer) {
-    out << static_cast<const Static_computer&>(computer);
-    return out;
-}
-
-void Monoblock::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Блок питания   |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-void Monoblock::display_table_row(int index) const {
-    std::cout << "| " << std::setw(2) << std::right << index
-         << " | " << std::setw(20) << std::left << getBrand()
-         << " | " << std::setw(8) << std::right << std::fixed << std::setprecision(1) << getScreensize()
-         << " | " << std::setw(6) << std::right << getRam()
-         << " | " << std::setw(12) << std::left << "Моноблок"
-         << " | " << std::setw(14) << std::left << (std::to_string(getPowerSupply()) + " Вт")
-         << " |" << std::endl;
+void Static_computer::print_table() const {
+    std::cout << *this;
 }
 
 // ==================== Portable_computer ====================
@@ -204,94 +157,17 @@ std::istream& operator>>(std::istream& in, Portable_computer& computer) {
 
 std::ostream& operator<<(std::ostream& out, const Portable_computer& computer) {
     out << static_cast<const Computer&>(computer);
-    out << "Время автономной работы: " << computer.battery_life << std::endl;
+    out << std::setw(12) << std::left << "Портативный" << " | "
+        << std::setw(14) << std::left << (std::to_string(computer.battery_life) + " ч") << " | ";
     return out;
 }
 
-void Portable_computer::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
+void Portable_computer::print_header() const {
+    Computer::print_header();
 }
 
-void Portable_computer::display_table_footer() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-void Portable_computer::display_table_row(int index) const {
-    std::cout << "| " << std::setw(2) << std::right << index
-         << " | " << std::setw(20) << std::left << getBrand()
-         << " | " << std::setw(8) << std::right << std::fixed << std::setprecision(1) << getScreensize()
-         << " | " << std::setw(6) << std::right << getRam()
-         << " | " << std::setw(12) << std::left << "Портативный"
-         << " | " << std::setw(14) << std::left << (std::to_string(battery_life) + " ч")
-         << " |" << std::endl;
-}
-
-// ==================== Tablet ====================
-
-Tablet::Tablet() : Portable_computer() {}
-
-Tablet::Tablet(const std::string& brand, float screensize, int ram, int battery_life)
-    : Portable_computer(brand, screensize, ram, battery_life) {}
-
-std::istream& operator>>(std::istream& in, Tablet& computer) {
-    in >> static_cast<Portable_computer&>(computer);
-    return in;
-}
-
-std::ostream& operator<<(std::ostream& out, const Tablet& computer) {
-    out << static_cast<const Portable_computer&>(computer);
-    return out;
-}
-
-void Tablet::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-void Tablet::display_table_row(int index) const {
-    std::cout << "| " << std::setw(2) << std::right << index
-         << " | " << std::setw(20) << std::left << getBrand()
-         << " | " << std::setw(8) << std::right << std::fixed << std::setprecision(1) << getScreensize()
-         << " | " << std::setw(6) << std::right << getRam()
-         << " | " << std::setw(12) << std::left << "Планшет"
-         << " | " << std::setw(14) << std::left << (std::to_string(getBatteryLife()) + " ч")
-         << " |" << std::endl;
-}
-
-// ==================== Laptop ====================
-
-Laptop::Laptop() : Portable_computer() {}
-
-Laptop::Laptop(const std::string& brand, float screensize, int ram, int battery_life)
-    : Portable_computer(brand, screensize, ram, battery_life) {}
-
-std::istream& operator>>(std::istream& in, Laptop& computer) {
-    in >> static_cast<Portable_computer&>(computer);
-    return in;
-}
-
-std::ostream& operator<<(std::ostream& out, const Laptop& computer) {
-    out << static_cast<const Portable_computer&>(computer);
-    return out;
-}
-
-void Laptop::display_table_header() const {
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-    std::cout << "| №  | Бренд               | Экран(\") | ОЗУ(ГБ)| Тип          | Батарея        |" << std::endl;
-    std::cout << "+----+----------------------+----------+--------+--------------+----------------+" << std::endl;
-}
-
-void Laptop::display_table_row(int index) const {
-    std::cout << "| " << std::setw(2) << std::right << index
-         << " | " << std::setw(20) << std::left << getBrand()
-         << " | " << std::setw(8) << std::right << std::fixed << std::setprecision(1) << getScreensize()
-         << " | " << std::setw(6) << std::right << getRam()
-         << " | " << std::setw(12) << std::left << "Ноутбук"
-         << " | " << std::setw(14) << std::left << (std::to_string(getBatteryLife()) + " ч")
-         << " |" << std::endl;
+void Portable_computer::print_table() const {
+    std::cout << *this;
 }
 
 // ==================== Вспомогательные функции ====================
@@ -304,16 +180,20 @@ void display_all_computers_table(Deque<Computer*>& computers) {
 
     std::cout << "\nТАБЛИЦА КОМПЬЮТЕРОВ" << std::endl;
 
-    computers.getFront()->display_table_header();
+    // Всегда используем общий заголовок
+    computers.getFront()->print_header();
 
     int index = 1;
-    for (auto it = computers.begin(); it != computers.end(); ++it) {
-        if (*it != nullptr) {
-            (*it)->display_table_row(index);
+    for (size_t i = 0; i < computers.size(); i++) {
+        Computer* comp = computers.getAt(i);
+        if (comp != nullptr) {
+            std::cout << "| " << std::setw(2) << std::right << index << " | ";
+            comp->print_table();
             index++;
         }
     }
 
-    computers.getFront()->display_table_footer();
+    // Подвал таблицы
+    std::cout << "+----+----------------------+----------+--------+--------------+----------------+-------------------+" << std::endl;
     std::cout << "Всего устройств: " << computers.size() << std::endl << std::endl;
 }

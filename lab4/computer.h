@@ -32,12 +32,12 @@ public:
     friend std::istream& operator>>(std::istream& in, Computer& computer);
     friend std::ostream& operator<<(std::ostream& out, const Computer& computer);
 
-    virtual void display_table_header() const;
-    virtual void display_table_footer() const;
-    virtual void display_table_row(int index) const;
+    virtual void print_header() const;
+    virtual void print_table() const;
 
     virtual void get_info();
     virtual void set_info();
+    virtual std::string getTypeName() const;
 };
 
 class Static_computer : public Computer {
@@ -58,22 +58,8 @@ public:
     friend std::istream& operator>>(std::istream& in, Static_computer& computer);
     friend std::ostream& operator<<(std::ostream& out, const Static_computer& computer);
 
-    void display_table_header() const override;
-    void display_table_footer() const override;
-    void display_table_row(int index) const override;
-};
-
-class Monoblock : public Static_computer {
-public:
-    Monoblock();
-    Monoblock(const std::string& brand, float screensize, int ram, int power_supply);
-
-    // Дружественные функции для перегрузки ввода/вывода
-    friend std::istream& operator>>(std::istream& in, Monoblock& computer);
-    friend std::ostream& operator<<(std::ostream& out, const Monoblock& computer);
-
-    void display_table_header() const override;
-    void display_table_row(int index) const override;
+    void print_header() const override;
+    void print_table() const override;
 };
 
 class Portable_computer : public Computer {
@@ -93,35 +79,8 @@ public:
     friend std::istream& operator>>(std::istream& in, Portable_computer& computer);
     friend std::ostream& operator<<(std::ostream& out, const Portable_computer& computer);
 
-    void display_table_header() const override;
-    void display_table_footer() const override;
-    void display_table_row(int index) const override;
-};
-
-class Tablet : public Portable_computer {
-public:
-    Tablet();
-    Tablet(const std::string& brand, float screensize, int ram, int battery_life);
-
-    // Дружественные функции для перегрузки ввода/вывода
-    friend std::istream& operator>>(std::istream& in, Tablet& computer);
-    friend std::ostream& operator<<(std::ostream& out, const Tablet& computer);
-
-    void display_table_header() const override;
-    void display_table_row(int index) const override;
-};
-
-class Laptop : public Portable_computer {
-public:
-    Laptop();
-    Laptop(const std::string& brand, float screensize, int ram, int battery_life);
-
-    // Дружественные функции для перегрузки ввода/вывода
-    friend std::istream& operator>>(std::istream& in, Laptop& computer);
-    friend std::ostream& operator<<(std::ostream& out, const Laptop& computer);
-
-    void display_table_header() const override;
-    void display_table_row(int index) const override;
+    void print_header() const override;
+    void print_table() const override;
 };
 
 // Функции для работы с деком компьютеров

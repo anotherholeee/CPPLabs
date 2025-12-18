@@ -3,6 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include <type_traits>
+#include <typeinfo>
+
+// Forward declaration для Computer
+class Computer;
 
 // ШАБЛОННЫЙ КЛАСС ДЕКА
 template<typename T>
@@ -21,174 +26,43 @@ private:
 
 public:
     // Конструкторы
-    Deque() : front(nullptr), back(nullptr), deque_size(0) {}
+    Deque();
     
     // Деструктор
-    ~Deque() {
-        clear();
-    }
+    ~Deque();
     
     // Копирующий конструктор
-    Deque(const Deque& other) : front(nullptr), back(nullptr), deque_size(0) {
-        Node* current = other.front;
-        while (current != nullptr) {
-            pushBack(current->data);
-            current = current->next;
-        }
-    }
+    Deque(const Deque& other);
     
     // Оператор присваивания
-    Deque& operator=(const Deque& other) {
-        if (this != &other) {
-            clear();
-            Node* current = other.front;
-            while (current != nullptr) {
-                pushBack(current->data);
-                current = current->next;
-            }
-        }
-        return *this;
-    }
+    Deque& operator=(const Deque& other);
     
     // Основные методы дека
-    void pushFront(const T& value) {
-        Node* newNode = new Node(value);
-        if (empty()) {
-            front = back = newNode;
-        } else {
-            newNode->next = front;
-            front->prev = newNode;
-            front = newNode;
-        }
-        deque_size++;
-    }
+    void pushFront(const T& value);
+    void pushBack(const T& value);
+    void popFront();
+    void popBack();
     
-    void pushBack(const T& value) {
-        Node* newNode = new Node(value);
-        if (empty()) {
-            front = back = newNode;
-        } else {
-            newNode->prev = back;
-            back->next = newNode;
-            back = newNode;
-        }
-        deque_size++;
-    }
+    T& getFront();
+    T& getBack();
+    const T& getFront() const;
+    const T& getBack() const;
     
-    void popFront() {
-        if (empty()) {
-            std::cout << "Дек пуст!" << std::endl;
-            return;
-        }
-        
-        Node* temp = front;
-        if (front == back) {
-            front = back = nullptr;
-        } else {
-            front = front->next;
-            front->prev = nullptr;
-        }
-        
-        delete temp;
-        deque_size--;
-    }
+    bool empty() const;
+    size_t size() const;
     
-    void popBack() {
-        if (empty()) {
-            std::cout << "Дек пуст!" << std::endl;
-            return;
-        }
-        
-        Node* temp = back;
-        if (front == back) {
-            front = back = nullptr;
-        } else {
-            back = back->prev;
-            back->next = nullptr;
-        }
-        
-        delete temp;
-        deque_size--;
-    }
-    
-    T& getFront() {
-        if (empty()) {
-            throw "Дек пуст!";
-        }
-        return front->data;
-    }
-    
-    T& getBack() {
-        if (empty()) {
-            throw "Дек пуст!";
-        }
-        return back->data;
-    }
-    
-    const T& getFront() const {
-        if (empty()) {
-            throw "Дек пуст!";
-        }
-        return front->data;
-    }
-    
-    const T& getBack() const {
-        if (empty()) {
-            throw "Дек пуст!";
-        }
-        return back->data;
-    }
-    
-    bool empty() const { return deque_size == 0; }
-    size_t size() const { return deque_size; }
-    
-    void clear() {
-        while (!empty()) {
-            popFront();
-        }
-    }
+    void clear();
     
     // Метод для отображения дека
-    void display() const {
-        if (empty()) {
-            std::cout << "Дек пуст" << std::endl;
-            return;
-        }
-        
-        Node* current = front;
-        std::cout << "Дек: ";
-        while (current != nullptr) {
-            std::cout << current->data;
-            if (current->next != nullptr) std::cout << " <-> ";
-            current = current->next;
-        }
-        std::cout << " | Размер: " << deque_size << std::endl;
-    }
+    void display() const;
     
-    // Итератор для прохода по деку
-    class Iterator {
-    private:
-        Node* current;
-        
-    public:
-        Iterator(Node* node) : current(node) {}
-        
-        T& operator*() { return current->data; }
-        Iterator& operator++() { 
-            if (current) current = current->next;
-            return *this;
-        }
-        Iterator operator++(int) {
-            Iterator temp = *this;
-            ++(*this);
-            return temp;
-        }
-        bool operator!=(const Iterator& other) const { return current != other.current; }
-        bool operator==(const Iterator& other) const { return current == other.current; }
-    };
+    // Метод для получения элемента по индексу
+    T& getAt(size_t index);
+    const T& getAt(size_t index) const;
     
-    Iterator begin() { return Iterator(front); }
-    Iterator end() { return Iterator(nullptr); }
+    // Метод поиска элемента
+    // Возвращает индекс элемента или -1, если не найден
+    int find(const T& value) const;
 };
 
 #endif

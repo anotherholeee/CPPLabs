@@ -2,6 +2,9 @@
 #define MENU_H
 
 #include "computer.h"
+#include "monoblock.h"
+#include "laptop.h"
+#include "tablet.h"
 #include "deque.h"
 
 // Функции меню
