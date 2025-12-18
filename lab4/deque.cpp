@@ -1,6 +1,7 @@
 #include "deque.h"
 #include "computer.h"
 #include <iostream>
+#include <functional>
 
 // ==================== Реализация методов шаблона Deque ====================
 
@@ -156,6 +157,32 @@ void Deque<T>::display() const {
     std::cout << " | Размер: " << deque_size << std::endl;
 }
 
+// Специализация метода display() для Computer*
+template<>
+void Deque<Computer*>::display() const {
+    if (empty()) {
+        std::cout << "Дек пуст" << std::endl;
+        return;
+    }
+    
+    Node* current = front;
+    std::cout << "Дек: ";
+    int index = 1;
+    while (current != nullptr) {
+        Computer* comp = current->data;
+        if (comp != nullptr) {
+            std::cout << "[" << index << "] " << comp->getTypeName() 
+                      << " (" << comp->getBrand() << ")";
+        } else {
+            std::cout << "[" << index << "] nullptr";
+        }
+        if (current->next != nullptr) std::cout << " <-> ";
+        current = current->next;
+        index++;
+    }
+    std::cout << " | Размер: " << deque_size << std::endl;
+}
+
 // Реализация метода getAt
 template<typename T>
 T& Deque<T>::getAt(size_t index) {
@@ -190,6 +217,30 @@ int Deque<T>::find(const T& value) const {
     return -1;
 }
 
+// Реализация метода sort (пузырьковая сортировка)
+template<typename T>
+void Deque<T>::sort(std::function<bool(const T&, const T&)> comp) {
+    if (empty() || deque_size == 1) {
+        return;
+    }
+    
+    bool swapped;
+    do {
+        swapped = false;
+        Node* current = front;
+        
+        while (current != nullptr && current->next != nullptr) {
+            if (comp(current->data, current->next->data)) {
+                // Меняем местами данные узлов
+                T temp = current->data;
+                current->data = current->next->data;
+                current->next->data = temp;
+                swapped = true;
+            }
+            current = current->next;
+        }
+    } while (swapped);
+}
 
-// Явное инстанцирование для Computer*
+// Явная инстанциация шаблона для Computer*
 template class Deque<Computer*>;

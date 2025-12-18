@@ -48,4 +48,3 @@ void Laptop::set_info() {
 std::string Laptop::getTypeName() const {
     return "Ноутбук";
 }
-

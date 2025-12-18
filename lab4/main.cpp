@@ -11,7 +11,8 @@ int main() {
     std::cout << "Используется двунаправленная очередь (дек)" << std::endl;
 
     Deque<Computer*> computers;
-    run_main_menu(computers);
+    Menu menu(computers);
+    menu.run();
 
     return 0;
 }

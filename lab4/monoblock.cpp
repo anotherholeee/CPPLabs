@@ -50,4 +50,3 @@ void Monoblock::set_info() {
 std::string Monoblock::getTypeName() const {
     return "Моноблок";
 }
-

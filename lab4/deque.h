@@ -5,9 +5,7 @@
 #include <string>
 #include <type_traits>
 #include <typeinfo>
-
-// Forward declaration для Computer
-class Computer;
+#include <functional>
 
 // ШАБЛОННЫЙ КЛАСС ДЕКА
 template<typename T>
@@ -63,6 +61,9 @@ public:
     // Метод поиска элемента
     // Возвращает индекс элемента или -1, если не найден
     int find(const T& value) const;
+    
+    // Метод сортировки
+    void sort(std::function<bool(const T&, const T&)> comp);
 };
 
 #endif

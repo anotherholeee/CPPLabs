@@ -48,4 +48,3 @@ void Tablet::set_info() {
 std::string Tablet::getTypeName() const {
     return "Планшет";
 }
-
