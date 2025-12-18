@@ -29,7 +29,7 @@ std::ostream& operator<<(std::ostream& out, const Tablet& computer) {
         extra_param = "Есть (стилус)";
     }
     
-    out << std::setw(17) << std::left << extra_param << " |" << std::endl;
+    out << std::setw(15) << std::left << extra_param << " |" << std::endl;
     return out;
 }
 

@@ -242,5 +242,19 @@ void Deque<T>::sort(std::function<bool(const T&, const T&)> comp) {
     } while (swapped);
 }
 
+// Реализация метода filter
+template<typename T>
+Deque<T> Deque<T>::filter(std::function<bool(const T&)> predicate) const {
+    Deque<T> result;
+    Node* current = front;
+    while (current != nullptr) {
+        if (predicate(current->data)) {
+            result.pushBack(current->data);
+        }
+        current = current->next;
+    }
+    return result;
+}
+
 // Явная инстанциация шаблона для Computer*
 template class Deque<Computer*>;

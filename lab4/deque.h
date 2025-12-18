@@ -64,6 +64,9 @@ public:
     
     // Метод сортировки
     void sort(std::function<bool(const T&, const T&)> comp);
+    
+    // Метод фильтрации с использованием лямбда-функции
+    Deque filter(std::function<bool(const T&)> predicate) const;
 };
 
 #endif

@@ -57,9 +57,9 @@ std::istream& operator>>(std::istream& in, Computer& computer) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Computer& computer) {
-    out << std::setw(20) << std::left << computer.brand << " | "
-        << std::setw(8) << std::right << std::fixed << std::setprecision(1) << computer.screensize << " | "
-        << std::setw(6) << std::right << computer.ram << " | ";
+    out << std::setw(15) << std::left << computer.brand << " | "
+        << std::setw(15) << std::right << std::fixed << std::setprecision(1) << computer.screensize << " | "
+        << std::setw(15) << std::right << computer.ram << " | ";
     return out;
 }
 

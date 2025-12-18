@@ -178,19 +178,16 @@ void Menu::searchDevices() {
     
     switch (choice) {
         case 1: {
-            // Поиск по бренду
+            // Поиск по бренду с использованием лямбда-функции
             std::string searchBrand;
             std::cout << "Введите бренд для поиска: ";
             std::cin.ignore();
             std::getline(std::cin, searchBrand);
             
-            // Проходим по всем элементам дека
-            for (size_t i = 0; i < computers.size(); i++) {
-                Computer* comp = computers.getAt(i);
-                if (comp != nullptr && comp->getBrand() == searchBrand) {
-                    results.pushBack(comp);
-                }
-            }
+            // Используем лямбда-функцию для фильтрации по бренду
+            results = computers.filter([searchBrand](Computer* comp) -> bool {
+                return comp != nullptr && comp->getBrand() == searchBrand;
+            });
             
             if (results.empty()) {
                 std::cout << "Устройства с брендом \"" << searchBrand << "\" не найдены." << std::endl;
@@ -201,17 +198,15 @@ void Menu::searchDevices() {
             break;
         }
         case 2: {
-            // Поиск по размеру экрана
+            // Поиск по размеру экрана с использованием лямбда-функции
             float searchSize;
             std::cout << "Введите размер экрана для поиска: ";
             std::cin >> searchSize;
             
-            for (size_t i = 0; i < computers.size(); i++) {
-                Computer* comp = computers.getAt(i);
-                if (comp != nullptr && comp->getScreensize() == searchSize) {
-                    results.pushBack(comp);
-                }
-            }
+            // Используем лямбда-функцию для фильтрации по размеру экрана
+            results = computers.filter([searchSize](Computer* comp) -> bool {
+                return comp != nullptr && comp->getScreensize() == searchSize;
+            });
             
             if (results.empty()) {
                 std::cout << "Устройства с размером экрана " << searchSize << "\" не найдены." << std::endl;
@@ -222,17 +217,15 @@ void Menu::searchDevices() {
             break;
         }
         case 3: {
-            // Поиск по объему оперативной памяти
+            // Поиск по объему оперативной памяти с использованием лямбда-функции
             int searchRam;
             std::cout << "Введите объем оперативной памяти для поиска: ";
             std::cin >> searchRam;
             
-            for (size_t i = 0; i < computers.size(); i++) {
-                Computer* comp = computers.getAt(i);
-                if (comp != nullptr && comp->getRam() == searchRam) {
-                    results.pushBack(comp);
-                }
-            }
+            // Используем лямбда-функцию для фильтрации по объему памяти
+            results = computers.filter([searchRam](Computer* comp) -> bool {
+                return comp != nullptr && comp->getRam() == searchRam;
+            });
             
             if (results.empty()) {
                 std::cout << "Устройства с объемом памяти " << searchRam << " ГБ не найдены." << std::endl;
