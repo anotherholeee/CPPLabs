@@ -13,4 +13,5 @@ add_executable(lab3 main.cpp
         laptop.cpp
         laptop.h
         tablet.cpp
-        tablet.h)
+        tablet.h
+)

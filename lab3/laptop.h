@@ -1,3 +1,4 @@
+
 #ifndef LAPTOP_H
 #define LAPTOP_H
 
@@ -12,10 +13,10 @@ public:
     Laptop(const std::string& brand, float screensize, int ram, int battery_life,
            bool has_numeric_keypad);
 
-     void get_info() override;
-     void set_info() override;
-     void print_header() const override;
-     void print_table() const override;
+    void get_info() override;
+    void set_info() override;
+    void print_header() const override;
+    void print_table() const override;
 
     bool getHasNumericKeypad() const;
     void setHasNumericKeypad(bool hasKeypad);

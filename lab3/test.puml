@@ -23,85 +23,118 @@ title Классовая диаграмма: Иерархия компьютер
 
 ' Базовый класс - вверху посередине
 class Computer {
-  {field} - brand[BRAND_LENGTH] : char
-  {field} - screensize : float
-  {field} - ram : int
+  {field} # brand[BRAND_LENGTH] : char
+  {field} # screensize : float
+  {field} # ram : int
 
   {method} + Computer()
   {method} + Computer(brand: string, screensize: float, ram: int)
-  {method} + getBrand() : string
-  {method} + getScreensize() : float
-  {method} + getRam() : int
+  {method} + getBrand() const : string
+  {method} + getScreensize() const : float
+  {method} + getRam() const : int
   {method} + setBrand(newBrand: string) : void
   {method} + setScreensize(newScreensize: float) : void
   {method} + setRam(newRam: int) : void
+  {method} + operator=(other: Computer&) : Computer&
 
   {method} + get_info() : void <<virtual>>
   {method} + set_info() : void <<virtual>>
-  {method} + print_header() : void <<virtual>>
-  {method} + print_table() : void <<virtual>>
+  {method} + print_header() const : void <<virtual>>
+  {method} + print_table() const : void <<virtual>>
+  {method} + ~Computer() : void <<virtual>>
+
+  {method} + friend operator>>(in: istream&, computer: Computer&) : istream&
+  {method} + friend operator<<(out: ostream&, computer: Computer&) : ostream&
 }
 
 ' Промежуточные классы
 class Static_computer {
-  {field} - power_supply : int
+  {field} # power_supply : int
 
-  {method} + getPowerSupply() : int
+  {method} + Static_computer()
+  {method} + Static_computer(brand: string, screensize: float, ram: int, power_supply: int)
+  {method} + getPowerSupply() const : int
   {method} + setPowerSupply(newPowerSupply: int) : void
+  {method} + operator=(other: Static_computer&) : Static_computer&
 
   {method} + get_info() : void <<override>>
   {method} + set_info() : void <<override>>
-  {method} + print_header() : void <<override>>
-  {method} + print_table() : void <<override>>
+  {method} + print_header() const : void <<override>>
+  {method} + print_table() const : void <<override>>
+  {method} + ~Static_computer() : void <<override>>
+
+  {method} + friend operator>>(in: istream&, computer: Static_computer&) : istream&
+  {method} + friend operator<<(out: ostream&, computer: Static_computer&) : ostream&
 }
 
 class Portable_computer {
-  {field} - battery_life : int
+  {field} # battery_life : int
 
-  {method} + getBatteryLife() : int
+  {method} + Portable_computer()
+  {method} + Portable_computer(brand: string, screensize: float, ram: int, battery_life: int)
+  {method} + getBatteryLife() const : int
   {method} + setBatteryLife(newBatteryLife: int) : void
+  {method} + operator=(other: Portable_computer&) : Portable_computer&
 
   {method} + get_info() : void <<override>>
   {method} + set_info() : void <<override>>
-  {method} + print_header() : void <<override>>
-  {method} + print_table() : void <<override>>
+  {method} + print_header() const : void <<override>>
+  {method} + print_table() const : void <<override>>
+
+  {method} + friend operator>>(in: istream&, computer: Portable_computer&) : istream&
+  {method} + friend operator<<(out: ostream&, computer: Portable_computer&) : ostream&
 }
 
 ' Конкретные классы
 class Monoblock {
   {field} - has_touchscreen : bool
 
-  {method} + getHasTouchscreen() : bool
+  {method} + Monoblock()
+  {method} + Monoblock(brand: string, screensize: float, ram: int, power_supply: int, has_touchscreen: bool)
+  {method} + getHasTouchscreen() const : bool
   {method} + setHasTouchscreen(hasTouch: bool) : void
 
   {method} + get_info() : void <<override>>
   {method} + set_info() : void <<override>>
-  {method} + print_header() : void <<override>>
-  {method} + print_table() : void <<override>>
+  {method} + print_header() const : void <<override>>
+  {method} + print_table() const : void <<override>>
+
+  {method} + friend operator>>(in: istream&, computer: Monoblock&) : istream&
+  {method} + friend operator<<(out: ostream&, computer: Monoblock&) : ostream&
 }
 
 class Laptop {
   {field} - has_numeric_keypad : bool
 
-  {method} + getHasNumericKeypad() : bool
+  {method} + Laptop()
+  {method} + Laptop(brand: string, screensize: float, ram: int, battery_life: int, has_numeric_keypad: bool)
+  {method} + getHasNumericKeypad() const : bool
   {method} + setHasNumericKeypad(hasKeypad: bool) : void
 
   {method} + get_info() : void <<override>>
   {method} + set_info() : void <<override>>
-  {method} + print_header() : void <<override>>
-  {method} + print_table() : void <<override>>
+  {method} + print_header() const : void <<override>>
+  {method} + print_table() const : void <<override>>
+
+  {method} + friend operator>>(in: istream&, computer: Laptop&) : istream&
+  {method} + friend operator<<(out: ostream&, computer: Laptop&) : ostream&
 }
 
 class Tablet {
   {field} - has_stylus : bool
 
-  {method} + getHasStylus() : bool
+  {method} + Tablet()
+  {method} + Tablet(brand: string, screensize: float, ram: int, battery_life: int, has_stylus: bool)
+  {method} + getHasStylus() const : bool
   {method} + setHasStylus(stylus: bool) : void
 
   {method} + get_info() : void <<override>>
   {method} + set_info() : void <<override>>
-  {method} + print_header() : void <<override>>
-  {method} + print_table() : void <<override>>
+  {method} + print_header() const : void <<override>>
+  {method} + print_table() const : void <<override>>
+
+  {method} + friend operator>>(in: istream&, computer: Tablet&) : istream&
+  {method} + friend operator<<(out: ostream&, computer: Tablet&) : ostream&
 }
 
 ' Простая структура с невидимыми связями
@@ -129,16 +162,7 @@ Portable_computer -down-|> Tablet
 hide dummy1
 hide dummy2
 
-' Перегрузка операторов (отдельная заметка)
-note "Операторы ввода/вывода:\noperator>> и operator<<\nреализованы как friend функции\nдля каждого класса" as OperatorsNote
-OperatorsNote .. Computer
-OperatorsNote .. Static_computer
-OperatorsNote .. Portable_computer
-OperatorsNote .. Monoblock
-OperatorsNote .. Laptop
-OperatorsNote .. Tablet
-
 ' Вспомогательные функции
-note "Глобальные функции:\n- display_all_computers_table()\n\nГлобальные константы:\n- BRAND_LENGTH = 20\n- MAX_COMPUTERS = 100" as GlobalsNote
+note "Глобальные функции:\n- display_all_computers_table(Computer*[], int)\n\nГлобальные константы:\n- BRAND_LENGTH = 20 (в computer.h)\n- MAX_COMPUTERS = 100 (в menu.h)\n\nФункции меню (в menu.h):\n- show_main_menu()\n- handle_menu_choice(Computer*[], int&, int)\n- run_main_menu(Computer*[], int)" as GlobalsNote
 
 @enduml

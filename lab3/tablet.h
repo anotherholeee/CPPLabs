@@ -12,10 +12,10 @@ public:
     Tablet(const std::string& brand, float screensize, int ram, int battery_life,
            bool has_stylus);
 
-     void get_info() override;
-     void set_info() override;
-     void print_header() const override;
-     void print_table() const override;
+    void get_info() override;
+    void set_info() override;
+    void print_header() const override;
+    void print_table() const override;
 
     bool getHasStylus() const;
     void setHasStylus(bool stylus);
