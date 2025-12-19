@@ -6,7 +6,30 @@
 using namespace std;
 
 // Конструктор
-Menu::Menu(Deque<Computer*>& computers) : computers(computers) {}
+Menu::Menu(Deque<Computer*>& computers) : computers(computers), selectedDeviceType(0) {}
+
+// Метод для отображения меню выбора типа устройства
+void Menu::show_device_type_menu() {
+    std::cout << "\nВыберите тип устройства:" << std::endl;
+    std::cout << "1. Моноблок" << std::endl;
+    std::cout << "2. Ноутбук" << std::endl;
+    std::cout << "3. Планшет" << std::endl;
+    std::cout << "Ваш выбор: ";
+}
+
+// Метод для выбора типа устройства
+int Menu::selectDeviceType() {
+    show_device_type_menu();
+    int type;
+    std::cin >> type;
+    if (type >= 1 && type <= 3) {
+        selectedDeviceType = type;
+        return type;
+    } else {
+        std::cout << "Неверный выбор!" << std::endl;
+        return 0;
+    }
+}
 
 // Метод для отображения главного меню
 void Menu::show_main_menu() {
@@ -25,21 +48,19 @@ void Menu::show_main_menu() {
 
 // Метод 1: Добавить устройство в конец
 void Menu::addDeviceToEnd() {
-    int type;
-    std::cout << "Выберите тип устройства для добавления в конец:" << std::endl;
-    std::cout << "1. Моноблок" << std::endl;
-    std::cout << "2. Ноутбук" << std::endl;
-    std::cout << "3. Планшет" << std::endl;
-    std::cout << "Ваш выбор: ";
-    std::cin >> type;
+    if (selectedDeviceType == 0) {
+        if (selectDeviceType() == 0) {
+            return;
+        }
+    }
 
     Computer* newComputer = nullptr;
-    switch (type) {
+    switch (selectedDeviceType) {
         case 1: newComputer = new Monoblock(); break;
         case 2: newComputer = new Laptop(); break;
         case 3: newComputer = new Tablet(); break;
         default:
-            std::cout << "Неверный выбор!" << std::endl;
+            std::cout << "Неверный тип устройства!" << std::endl;
             return;
     }
 
@@ -52,21 +73,19 @@ void Menu::addDeviceToEnd() {
 
 // Метод 2: Добавить устройство в начало
 void Menu::addDeviceToFront() {
-    int type;
-    std::cout << "Выберите тип устройства для добавления в начало:" << std::endl;
-    std::cout << "1. Моноблок" << std::endl;
-    std::cout << "2. Ноутбук" << std::endl;
-    std::cout << "3. Планшет" << std::endl;
-    std::cout << "Ваш выбор: ";
-    std::cin >> type;
+    if (selectedDeviceType == 0) {
+        if (selectDeviceType() == 0) {
+            return;
+        }
+    }
 
     Computer* newComputer = nullptr;
-    switch (type) {
+    switch (selectedDeviceType) {
         case 1: newComputer = new Monoblock(); break;
         case 2: newComputer = new Laptop(); break;
         case 3: newComputer = new Tablet(); break;
         default:
-            std::cout << "Неверный выбор!" << std::endl;
+            std::cout << "Неверный тип устройства!" << std::endl;
             return;
     }
 
@@ -281,6 +300,12 @@ void Menu::handle_menu_choice(int choice) {
 
 // Метод для запуска главного цикла меню
 void Menu::run() {
+    // Сначала запрашиваем тип устройства
+    if (selectDeviceType() == 0) {
+        std::cout << "Ошибка выбора типа устройства. Программа завершена." << std::endl;
+        return;
+    }
+
     bool exit_program = false;
 
     while (!exit_program) {
